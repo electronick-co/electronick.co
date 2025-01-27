@@ -1,6 +1,5 @@
-# Electroick's page
+# Electronick's page
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
 ## Ongoing projects
 
