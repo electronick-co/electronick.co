@@ -1,17 +1,16 @@
-# Welcome to MkDocs
+# Electroick's page
 
 For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
-## Commands
+## Ongoing projects
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+2025 projects so far involve:
 
-## Project layout
+- Retro displays, inspired by [this](https://www.youtube.com/watch?v=OG50VaT9Jg0) and [this](https://www.youtube.com/watch?v=np4NRMKOG6U)
+- Vending machine for PCB keychains
+- Badge board for social events/party enhacing (more info soon)
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+## Past projects
+
+- Synth+Mar
+- Sytnh+rio
