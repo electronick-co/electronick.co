@@ -1,0 +1,155 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+const all = (await getCollection('projects'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const ongoing   = all.filter(p => p.data.status === 'ongoing');
+const completed = all.filter(p => p.data.status === 'completed');
+---
+
+<Base title="projects" description="hardware, software, and art projects by electronick">
+  <div class="container page">
+    <header class="page-head">
+      <div class="head-text">
+        <h1 class="page-title">projects</h1>
+        <span class="jp page-jp dim">プロジェクト</span>
+      </div>
+      <p class="mono dim count">{all.length} total</p>
+    </header>
+
+    {ongoing.length > 0 && (
+      <section class="group">
+        <div class="group-label">
+          <span class="mono dim group-name">ongoing</span>
+          <span class="jp dim group-jp">進行中</span>
+          <span class="dot coral">●</span>
+        </div>
+        <div class="grid">
+          {ongoing.map(p => (
+            <ProjectCard
+              title={p.data.title}
+              description={p.data.description}
+              slug={p.slug}
+              tags={p.data.tags}
+              image={p.data.image}
+              status={p.data.status}
+              date={p.data.date}
+            />
+          ))}
+        </div>
+      </section>
+    )}
+
+    {completed.length > 0 && (
+      <section class="group">
+        <div class="group-label">
+          <span class="mono dim group-name">completed</span>
+          <span class="jp dim group-jp">完了</span>
+        </div>
+        <div class="grid">
+          {completed.map(p => (
+            <ProjectCard
+              title={p.data.title}
+              description={p.data.description}
+              slug={p.slug}
+              tags={p.data.tags}
+              image={p.data.image}
+              status={p.data.status}
+              date={p.data.date}
+            />
+          ))}
+        </div>
+      </section>
+    )}
+
+    {all.length === 0 && (
+      <div class="empty">
+        <p class="mono dim">— nothing here yet —</p>
+        <p class="jp dim">準備中</p>
+      </div>
+    )}
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 3.5rem;
+    padding-bottom: 5rem;
+  }
+
+  .page-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .head-text {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+
+  .page-title {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .page-jp {
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+  }
+
+  .count {
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+  }
+
+  .group {
+    margin-bottom: 3.5rem;
+  }
+
+  .group-label {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .group-name {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .group-jp {
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+  }
+
+  .dot {
+    font-size: 0.5rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .empty {
+    padding-top: 4rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+</style>

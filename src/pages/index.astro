@@ -1,0 +1,267 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 4);
+
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 4);
+---
+
+<Base>
+  <!-- ─── hero ─── -->
+  <section class="hero container">
+    <div class="hero-text">
+      <p class="mono dim label-top">hardware / product development / art</p>
+      <h1 class="hero-name">ElectroNick</h1>
+      <p class="jp hero-jp">エレクトロニック</p>
+    </div>
+    <div class="hero-desc">
+      <p>
+        Hardware is the new software.
+        Making hardware that fits real life — hardware that makes sense,
+        hardware that inspires, hardware that lasts.
+        Mountain View, CA.
+      </p>
+      <div class="hero-accent-bar">
+        <span class="bar coral-bar"></span>
+        <span class="bar periwinkle-bar"></span>
+        <span class="bar mint-bar"></span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule container-rule" />
+
+  <!-- ─── projects ─── -->
+  {projects.length > 0 && (
+    <section class="section container">
+      <div class="section-head">
+        <h2 class="section-title">projects</h2>
+        <span class="jp section-jp dim">プロジェクト</span>
+        <a href="/projects" class="mono dim see-all">all →</a>
+      </div>
+      <div class="grid">
+        {projects.map(p => (
+          <ProjectCard
+            title={p.data.title}
+            description={p.data.description}
+            slug={p.slug}
+            tags={p.data.tags}
+            image={p.data.image}
+            status={p.data.status}
+            date={p.data.date}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- ─── notes ─── -->
+  {posts.length > 0 && (
+    <section class="section container">
+      <div class="section-head">
+        <h2 class="section-title">notes</h2>
+        <span class="jp section-jp dim">ノート</span>
+        <a href="/blog" class="mono dim see-all">all →</a>
+      </div>
+      <div class="post-list">
+        {posts.map(p => (
+          <a href={`/blog/${p.slug}`} class="post-row">
+            <span class="post-title">{p.data.title}</span>
+            <span class="mono dim post-date">
+              {p.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+            </span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- empty state when no content yet -->
+  {projects.length === 0 && posts.length === 0 && (
+    <section class="empty container">
+      <p class="mono dim">— content incoming —</p>
+      <p class="jp dim empty-jp">準備中</p>
+    </section>
+  )}
+</Base>
+
+<style>
+  /* ─── hero ─── */
+  .hero {
+    padding-top: 5rem;
+    padding-bottom: 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: end;
+  }
+
+  .label-top {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+    opacity: 0.7;
+  }
+
+  .hero-name {
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+  }
+
+  .hero-jp {
+    font-family: var(--font-jp);
+    font-size: clamp(0.85rem, 2vw, 1.1rem);
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    margin-top: 0.75rem;
+    font-weight: 300;
+  }
+
+  .hero-desc {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .hero-desc p {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--text-dim);
+    max-width: 38ch;
+  }
+
+  .hero-accent-bar {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .bar {
+    height: 2px;
+    display: block;
+  }
+
+  .coral-bar      { width: 3rem;   background: var(--coral); }
+  .periwinkle-bar { width: 1.5rem; background: var(--periwinkle); }
+  .mint-bar       { width: 0.75rem; background: var(--mint); }
+
+  /* ─── divider ─── */
+  .container-rule {
+    border: none;
+    border-top: 1px solid var(--line);
+    max-width: var(--max-w);
+    margin-inline: auto;
+    width: calc(100% - 4rem);
+  }
+
+  /* ─── sections ─── */
+  .section {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .section-jp {
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+  }
+
+  .see-all {
+    margin-left: auto;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    opacity: 0.5;
+    transition: opacity 0.15s;
+  }
+
+  .see-all:hover { opacity: 1; }
+
+  /* ─── project grid ─── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  /* ─── post list ─── */
+  .post-list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--line);
+  }
+
+  .post-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--line);
+    transition: color 0.15s;
+  }
+
+  .post-row:hover { color: var(--coral); }
+  .post-row:hover .post-date { color: var(--text-dim); }
+
+  .post-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .post-date {
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ─── empty ─── */
+  .empty {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .empty-jp {
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* ─── responsive ─── */
+  @media (max-width: 720px) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+    }
+    .container-rule {
+      width: calc(100% - 2.5rem);
+    }
+  }
+</style>

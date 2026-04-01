@@ -1,0 +1,158 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Base title="notes" description="thoughts, notes, and writing by electronick">
+  <div class="container page">
+    <header class="page-head">
+      <div class="head-text">
+        <h1 class="page-title">notes</h1>
+        <span class="jp page-jp dim">ノート</span>
+      </div>
+      <p class="mono dim count">{posts.length} entries</p>
+    </header>
+
+    {posts.length > 0 ? (
+      <div class="post-list">
+        {posts.map(p => (
+          <a href={`/blog/${p.slug}`} class="post-row">
+            <div class="post-main">
+              <span class="post-title">{p.data.title}</span>
+              {p.data.excerpt && (
+                <span class="post-excerpt dim">{p.data.excerpt}</span>
+              )}
+            </div>
+            <div class="post-meta">
+              {p.data.tags && p.data.tags.map(t => (
+                <span class="tag">{t}</span>
+              ))}
+              <span class="mono dim post-date">
+                {p.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div class="empty">
+        <p class="mono dim">— nothing written yet —</p>
+        <p class="jp dim">準備中</p>
+      </div>
+    )}
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 3.5rem;
+    padding-bottom: 5rem;
+  }
+
+  .page-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .head-text {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+
+  .page-title {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .page-jp {
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+  }
+
+  .count {
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+  }
+
+  .post-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .post-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--line);
+    transition: color 0.15s;
+  }
+
+  .post-row:hover { color: var(--coral); }
+  .post-row:hover .post-excerpt,
+  .post-row:hover .post-date { color: var(--text-dim); }
+
+  .post-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+  }
+
+  .post-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .post-excerpt {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 50ch;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 0;
+  }
+
+  .post-date {
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .empty {
+    padding-top: 4rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  @media (max-width: 640px) {
+    .post-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .post-meta { flex-wrap: wrap; }
+  }
+</style>

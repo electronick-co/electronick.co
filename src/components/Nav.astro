@@ -1,0 +1,115 @@
+---
+const links = [
+  { href: '/projects', label: 'projects', jp: 'プロジェクト' },
+  { href: '/blog',     label: 'notes',    jp: 'ノート' },
+];
+
+const current = Astro.url.pathname;
+---
+
+<header>
+  <nav class="container">
+    <a href="/" class="site-name">
+      <span class="wordmark">ElectroNick.co</span>
+      <span class="jp sub">エレクトロニック</span>
+    </a>
+
+    <div class="nav-links">
+      {links.map(l => (
+        <a
+          href={l.href}
+          class:list={['nav-link', { active: current.startsWith(l.href) }]}
+        >
+          <span class="label">{l.label}</span>
+          <span class="jp nav-jp">{l.jp}</span>
+        </a>
+      ))}
+    </div>
+  </nav>
+  <div class="nav-rule" />
+</header>
+
+<style>
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg);
+  }
+
+  nav {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-top: 1.4rem;
+    padding-bottom: 1.1rem;
+    gap: 2rem;
+  }
+
+  .site-name {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    line-height: 1;
+  }
+
+  .wordmark {
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .sub {
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    letter-spacing: 0.06em;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: flex-end;
+    gap: 2.5rem;
+  }
+
+  .nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.1rem;
+    line-height: 1;
+    opacity: 0.6;
+    transition: opacity 0.15s;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    opacity: 1;
+  }
+
+  .nav-link.active .label {
+    color: var(--coral);
+  }
+
+  .label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  .nav-jp {
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    letter-spacing: 0.06em;
+  }
+
+  .nav-rule {
+    height: 1px;
+    background: var(--line);
+  }
+
+  @media (max-width: 480px) {
+    .nav-jp { display: none; }
+    .sub     { display: none; }
+    .nav-links { gap: 1.5rem; }
+  }
+</style>

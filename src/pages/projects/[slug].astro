@@ -1,0 +1,205 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map(p => ({
+    params: { slug: p.slug },
+    props: { project: p },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+
+const { title, description, date, tags = [], image, status, video } = project.data;
+const dateStr = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+---
+
+<Base title={title} description={description}>
+  <article class="container page">
+    <!-- meta sidebar -->
+    <aside class="sidebar">
+      <a href="/projects" class="mono dim back">← projects</a>
+
+      <div class="meta-block">
+        <div class="meta-row">
+          <span class="mono dim meta-label">date</span>
+          <span class="mono meta-val">{dateStr}</span>
+        </div>
+        {status === 'ongoing' && (
+          <div class="meta-row">
+            <span class="mono dim meta-label">status</span>
+            <span class="mono coral meta-val">● 進行中</span>
+          </div>
+        )}
+        {tags.length > 0 && (
+          <div class="meta-row tags-row">
+            <span class="mono dim meta-label">tags</span>
+            <div class="tags">
+              {tags.map(t => <span class="tag">{t}</span>)}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {video && (
+        <div class="video-link">
+          <a href={video} target="_blank" rel="noopener" class="mono dim">
+            ↗ watch video
+          </a>
+        </div>
+      )}
+    </aside>
+
+    <!-- content -->
+    <div class="content-col">
+      {image && (
+        <div class="hero-img">
+          <img src={image} alt={title} />
+        </div>
+      )}
+
+      <header class="content-head">
+        <h1 class="project-title">{title}</h1>
+        <p class="project-desc">{description}</p>
+      </header>
+
+      <hr class="rule" />
+
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .page {
+    display: grid;
+    grid-template-columns: 14rem 1fr;
+    gap: 4rem;
+    padding-top: 3.5rem;
+    padding-bottom: 5rem;
+    align-items: start;
+  }
+
+  /* sidebar */
+  .sidebar {
+    position: sticky;
+    top: 6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .back {
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    opacity: 0.5;
+    transition: opacity 0.15s;
+  }
+
+  .back:hover { opacity: 1; }
+
+  .meta-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .meta-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .meta-val {
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+  }
+
+  .tags-row .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-top: 0.15rem;
+  }
+
+  .video-link a {
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    opacity: 0.55;
+    transition: opacity 0.15s;
+  }
+
+  .video-link a:hover { opacity: 1; }
+
+  /* content column */
+  .content-col {
+    min-width: 0;
+  }
+
+  .hero-img {
+    margin-bottom: 2rem;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .hero-img img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .content-head {
+    margin-bottom: 1.5rem;
+  }
+
+  .project-title {
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.5rem;
+  }
+
+  .project-desc {
+    font-size: 1.05rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .rule {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin-bottom: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    .page {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .sidebar {
+      position: static;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .meta-block {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+  }
+</style>

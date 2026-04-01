@@ -1,0 +1,38 @@
+---
+import '@fontsource-variable/space-grotesk';
+import '@fontsource/dm-mono';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'ElectroNick.co',
+  description = 'hardware / product development / art — ElectroNick\'s corner of the web',
+} = Astro.props;
+
+const pageTitle = title === 'ElectroNick.co' ? title : `${title} — ElectroNick.co`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <Nav />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

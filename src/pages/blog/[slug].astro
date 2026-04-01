@@ -1,0 +1,118 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(p => ({
+    params: { slug: p.slug },
+    props: { post: p },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const { title, date, excerpt, tags = [] } = post.data;
+const dateStr = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<Base title={title} description={excerpt ?? title}>
+  <article class="container page">
+    <div class="post-wrap">
+      <header class="post-head">
+        <a href="/blog" class="mono dim back">← notes</a>
+
+        <div class="meta-line">
+          <span class="mono dim date">{dateStr}</span>
+          {tags.map(t => <span class="tag">{t}</span>)}
+        </div>
+
+        <h1 class="post-title">{title}</h1>
+        {excerpt && <p class="post-excerpt dim">{excerpt}</p>}
+      </header>
+
+      <hr class="rule" />
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      <footer class="post-foot">
+        <hr class="rule" />
+        <a href="/blog" class="mono dim back">← back to notes</a>
+      </footer>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .page {
+    padding-top: 3.5rem;
+    padding-bottom: 5rem;
+  }
+
+  .post-wrap {
+    max-width: 680px;
+  }
+
+  .back {
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    opacity: 0.5;
+    transition: opacity 0.15s;
+    display: inline-block;
+    margin-bottom: 2rem;
+  }
+
+  .back:hover { opacity: 1; }
+
+  .post-head {
+    margin-bottom: 1.5rem;
+  }
+
+  .meta-line {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .date {
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+  }
+
+  .post-title {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+  }
+
+  .post-excerpt {
+    font-size: 1rem;
+    line-height: 1.65;
+    max-width: 55ch;
+  }
+
+  .rule {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin-block: 1.5rem;
+  }
+
+  .post-foot {
+    margin-top: 3rem;
+  }
+
+  .post-foot .back {
+    margin-bottom: 0;
+  }
+</style>
