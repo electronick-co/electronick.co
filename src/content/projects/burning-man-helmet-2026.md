@@ -67,15 +67,15 @@ The project is split across three repositories: the Pi software (<a class="gh-li
 ## Hardware
 
 <div class="gallery">
-  <figure><img src="/images/mindcontrol/parts/pi5.jpg" alt="Raspberry Pi 5" loading="lazy" /><figcaption><strong>Raspberry Pi 5</strong>Main computer, runs every service</figcaption></figure>
-  <figure><img src="/images/mindcontrol/parts/hailo.jpg" alt="Raspberry Pi AI HAT+ 2 with Hailo-10H" loading="lazy" /><figcaption><strong>Hailo-10H (AI HAT+ 2)</strong>Runs the LLM</figcaption></figure>
-  <figure><img src="/images/mindcontrol/parts/camera.jpg" alt="Raspberry Pi Camera Module 3 NoIR" loading="lazy" /><figcaption><strong>Camera Module 3 NoIR</strong>Front camera, MJPEG to the phone</figcaption></figure>
-  <figure><img src="/images/mindcontrol/parts/audio.jpg" alt="Waveshare WM8960 Audio HAT" loading="lazy" /><figcaption><strong>WM8960 Audio HAT</strong>Microphone and speaker</figcaption></figure>
-  <figure><img src="/images/mindcontrol/parts/wifi.jpg" alt="TP-Link Archer T2U Plus" loading="lazy" /><figcaption><strong>TP-Link Archer T2U Plus</strong>WiFi access point for the phone</figcaption></figure>
-  <figure><img src="/images/mindcontrol/parts/xiao.jpg" alt="Seeed XIAO ESP32-S3 Sense" loading="lazy" /><figcaption><strong>XIAO ESP32-S3</strong>Drives the servos and LED strips</figcaption></figure>
-  <figure><img src="/images/mindcontrol/parts/servo.jpg" alt="Micro servo" loading="lazy" /><figcaption><strong>Micro servos</strong>Eye X, eye Y and eyelid</figcaption></figure>
-  <figure><img src="/images/mindcontrol/parts/leds.jpg" alt="24-pixel WS2812 LED ring" loading="lazy" /><figcaption><strong>WS2812 LEDs</strong>2 × 24-px goggle rings, ~200-px helmet strip</figcaption></figure>
-  <figure><img src="/images/mindcontrol/parts/shining.jpg" alt="SLShining LED helmet" loading="lazy" /><figcaption><strong>SLShining display</strong>48×12 RGB matrix over BLE</figcaption></figure>
+  <figure><img src="/images/mindcontrol/components/pi5.jpg" alt="Raspberry Pi 5" loading="lazy" /><figcaption><strong>Raspberry Pi 5</strong>Main computer, runs every service</figcaption></figure>
+  <figure><img src="/images/mindcontrol/components/hailo.jpg" alt="Raspberry Pi AI HAT+ 2 with Hailo-10H" loading="lazy" /><figcaption><strong>Hailo-10H (AI HAT+ 2)</strong>Runs the LLM</figcaption></figure>
+  <figure><img src="/images/mindcontrol/components/camera.jpg" alt="Raspberry Pi Camera Module 3 NoIR" loading="lazy" /><figcaption><strong>Camera Module 3 NoIR</strong>Front camera, MJPEG to the phone</figcaption></figure>
+  <figure><img src="/images/mindcontrol/components/audio.jpg" alt="Waveshare WM8960 Audio HAT" loading="lazy" /><figcaption><strong>WM8960 Audio HAT</strong>Microphone and speaker</figcaption></figure>
+  <figure><img src="/images/mindcontrol/components/wifi.jpg" alt="TP-Link Archer T2U Plus" loading="lazy" /><figcaption><strong>TP-Link Archer T2U Plus</strong>WiFi access point for the phone</figcaption></figure>
+  <figure><img src="/images/mindcontrol/components/xiao.jpg" alt="Seeed XIAO ESP32-S3 Sense" loading="lazy" /><figcaption><strong>XIAO ESP32-S3</strong>Drives the servos and LED strips</figcaption></figure>
+  <figure><img src="/images/mindcontrol/components/servo.jpg" alt="Micro servo" loading="lazy" /><figcaption><strong>Micro servos</strong>Eye X, eye Y and eyelid</figcaption></figure>
+  <figure><img src="/images/mindcontrol/components/leds.jpg" alt="24-pixel WS2812 LED ring" loading="lazy" /><figcaption><strong>WS2812 LEDs</strong>2 × 24-px goggle rings, ~200-px helmet strip</figcaption></figure>
+  <figure><img src="/images/mindcontrol/components/shining.jpg" alt="SLShining LED helmet" loading="lazy" /><figcaption><strong>SLShining display</strong>48×12 RGB matrix over BLE</figcaption></figure>
 </div>
 
 Product photos from Raspberry Pi, Adafruit, Waveshare, TP-Link, Seeed Studio and an SLShining retailer. The servo and LED ring photos show representative parts.
