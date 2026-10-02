@@ -20,6 +20,11 @@ const projects = defineCollection({
     tags: z.array(z.string()).optional(),
     status: z.enum(['ongoing', 'completed']).default('completed'),
     video: z.string().optional(),
+    repos: z.array(z.object({
+      name: z.string(),
+      url: z.string().url(),
+      description: z.string().optional(),
+    })).optional(),
   }),
 });
 

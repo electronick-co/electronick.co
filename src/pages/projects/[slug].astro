@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
+import GitHubIcon from '../../components/GitHubIcon.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -13,7 +14,7 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await project.render();
 
-const { title, description, date, tags = [], image, status, video } = project.data;
+const { title, description, date, tags = [], image, status, video, repos = [] } = project.data;
 const dateStr = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
 ---
 
@@ -51,6 +52,20 @@ const dateStr = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long
           </a>
         </div>
       )}
+
+      {repos.length > 0 && (
+        <div class="meta-row">
+          <span class="mono dim meta-label">source</span>
+          <div class="side-repos">
+            {repos.map(r => (
+              <a href={r.url} target="_blank" rel="noopener" class="side-repo mono">
+                <GitHubIcon size={14} />
+                <span>{r.name}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
     </aside>
 
     <!-- content -->
@@ -65,6 +80,21 @@ const dateStr = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long
         <h1 class="project-title">{title}</h1>
         <p class="project-desc">{description}</p>
       </header>
+
+      {repos.length > 0 && (
+        <div class="repo-cards">
+          {repos.map(r => (
+            <a href={r.url} target="_blank" rel="noopener" class="repo-card">
+              <GitHubIcon size={26} />
+              <span class="repo-text">
+                <span class="repo-name mono">{r.name}</span>
+                {r.description && <span class="repo-desc">{r.description}</span>}
+              </span>
+              <span class="repo-arrow mono">↗</span>
+            </a>
+          ))}
+        </div>
+      )}
 
       <hr class="rule" />
 
@@ -180,6 +210,77 @@ const dateStr = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long
     border: none;
     border-top: 1px solid var(--line);
     margin-bottom: 2rem;
+  }
+
+  /* source repos */
+  .side-repos {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-top: 0.15rem;
+  }
+
+  .side-repo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    opacity: 0.7;
+    transition: opacity 0.15s, color 0.15s;
+    word-break: break-all;
+  }
+
+  .side-repo:hover { opacity: 1; color: var(--coral); }
+
+  .repo-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .repo-card {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--bg-alt);
+    transition: border-color 0.15s, transform 0.15s;
+  }
+
+  .repo-card:hover {
+    border-color: var(--coral);
+    transform: translateY(-1px);
+  }
+
+  .repo-card:hover .repo-arrow { color: var(--coral); }
+
+  .repo-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .repo-name {
+    font-size: 0.8rem;
+    font-weight: 500;
+    word-break: break-all;
+  }
+
+  .repo-desc {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    line-height: 1.4;
+  }
+
+  .repo-arrow {
+    font-size: 0.85rem;
+    color: var(--text-dim);
   }
 
   @media (max-width: 768px) {

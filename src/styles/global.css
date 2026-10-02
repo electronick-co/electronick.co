@@ -137,6 +137,47 @@ p { line-height: 1.7; }
   padding: 0.5rem 1rem 0.5rem 0;
   border-bottom: 1px solid var(--line);
 }
+.prose figure { margin-block: 2rem; }
+.prose figure img { margin: 0; border: 1px solid var(--line); }
+.prose figcaption {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  color: var(--text-dim);
+  margin-top: 0.5rem;
+}
+.prose .pixel img { image-rendering: pixelated; background: #000; }
+.prose .gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: 1rem;
+  margin-block: 1.5rem 2rem;
+}
+.prose .gallery figure { margin: 0; }
+.prose .gallery img {
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+  background: #fff;
+  padding: 0.5rem;
+}
+.prose .gallery figcaption strong {
+  display: block;
+  color: var(--text);
+  font-weight: 500;
+}
+.prose .gallery-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  gap: 1rem;
+  margin-block: 1.5rem 2rem;
+}
+.prose .gallery-2 figure { margin: 0; }
+.prose a.gh-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.prose a.gh-link svg { flex-shrink: 0; }
 .prose th {
   font-family: var(--font-mono);
   font-size: 0.72rem;
