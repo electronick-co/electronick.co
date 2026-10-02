@@ -1,7 +1,10 @@
-<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Notes from a 10-minute talk on running a voice AI fully offline on a Raspberry Pi 5 inside a Burning Man helmet."><meta name="generator" content="Astro v4.16.19"><title>EdgeAI @ Burning Man at Google Dev Day — ElectroNick.co</title><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.CjUgeyZm.css">
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Notes from a 10-minute talk on running a voice AI fully offline on a Raspberry Pi 5 inside a Burning Man helmet."><meta name="generator" content="Astro v4.16.19"><title>EdgeAI @ Burning Man at Google Dev Day — ElectroNick.co</title><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.Q1SFgfXf.css">
 <style>.page[data-astro-cid-4sn4zg3r]{padding-top:3.5rem;padding-bottom:5rem}.post-wrap[data-astro-cid-4sn4zg3r]{max-width:680px}.back[data-astro-cid-4sn4zg3r]{font-size:.72rem;letter-spacing:.04em;opacity:.5;transition:opacity .15s;display:inline-block;margin-bottom:2rem}.back[data-astro-cid-4sn4zg3r]:hover{opacity:1}.post-head[data-astro-cid-4sn4zg3r]{margin-bottom:1.5rem}.meta-line[data-astro-cid-4sn4zg3r]{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}.date[data-astro-cid-4sn4zg3r]{font-size:.72rem;letter-spacing:.05em}.post-title[data-astro-cid-4sn4zg3r]{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700;letter-spacing:-.03em;line-height:1.15;margin-bottom:.75rem}.post-excerpt[data-astro-cid-4sn4zg3r]{font-size:1rem;line-height:1.65;max-width:55ch}.rule[data-astro-cid-4sn4zg3r]{border:none;border-top:1px solid var(--line);margin-block:1.5rem}.post-foot[data-astro-cid-4sn4zg3r]{margin-top:3rem}.post-foot[data-astro-cid-4sn4zg3r] .back[data-astro-cid-4sn4zg3r]{margin-bottom:0}
 </style></head> <body> <header data-astro-cid-dmqpwcec> <nav class="container" data-astro-cid-dmqpwcec> <a href="/" class="site-name" data-astro-cid-dmqpwcec> <span class="wordmark" data-astro-cid-dmqpwcec>ElectroNick.co</span> <span class="jp sub" data-astro-cid-dmqpwcec>エレクトロニック</span> </a> <div class="nav-links" data-astro-cid-dmqpwcec> <a href="/projects" class="nav-link" data-astro-cid-dmqpwcec> <span class="label" data-astro-cid-dmqpwcec>projects</span> <span class="jp nav-jp" data-astro-cid-dmqpwcec>プロジェクト</span> </a><a href="/blog" class="nav-link active" data-astro-cid-dmqpwcec> <span class="label" data-astro-cid-dmqpwcec>notes</span> <span class="jp nav-jp" data-astro-cid-dmqpwcec>ノート</span> </a> </div> </nav> <div class="nav-rule" data-astro-cid-dmqpwcec></div> </header>  <main>  <article class="container page" data-astro-cid-4sn4zg3r> <div class="post-wrap" data-astro-cid-4sn4zg3r> <header class="post-head" data-astro-cid-4sn4zg3r> <a href="/blog" class="mono dim back" data-astro-cid-4sn4zg3r>← notes</a> <div class="meta-line" data-astro-cid-4sn4zg3r> <span class="mono dim date" data-astro-cid-4sn4zg3r>October 1, 2026</span> <span class="tag" data-astro-cid-4sn4zg3r>talk</span><span class="tag" data-astro-cid-4sn4zg3r>edge-ai</span><span class="tag" data-astro-cid-4sn4zg3r>raspberry-pi</span><span class="tag" data-astro-cid-4sn4zg3r>burning-man</span> </div> <h1 class="post-title" data-astro-cid-4sn4zg3r>EdgeAI @ Burning Man at Google Dev Day</h1> <p class="post-excerpt dim" data-astro-cid-4sn4zg3r>Notes from a 10-minute talk on running a voice AI fully offline on a Raspberry Pi 5 inside a Burning Man helmet.</p> </header> <hr class="rule" data-astro-cid-4sn4zg3r> <div class="prose" data-astro-cid-4sn4zg3r> <p>A 10-minute talk for Google Dev Day about the <a href="/projects/burning-man-helmet-2026">MindControl Helmet</a>: what it takes to run a voice assistant with no cloud at all, on hardware you can wear in the desert.</p>
 <p>I didn’t go to Burning Man myself. The helmet was built for someone else to wear on the playa.</p>
+<figure>
+  <img src="/images/mindcontrol/slides/title.jpg" alt="Title slide: EdgeAI @ Burning Man, Nick Velásquez (ElectroNick)" loading="lazy">
+</figure>
 <h2 id="the-short-version">The short version</h2>
 <ul>
 <li>The desert has no reliable internet, so the AI has to live on the helmet.</li>
@@ -11,7 +14,14 @@
 </ul>
 <h2 id="cloud-first-then-local">Cloud first, then local</h2>
 <p>The first prototype ran on a laptop and compared three setups: a classic chain (faster-whisper, the Claude API, ElevenLabs), Gemini Live doing audio in and audio out with a single model, and a local Chatterbox voice clone. The cloud setups sounded good but needed internet. The local clone took 10 to 30 seconds per reply. Neither works on the playa.</p>
+<figure>
+  <img src="/images/mindcontrol/slides/cloud.jpg" alt="Three laptop prototypes compared" loading="lazy">
+</figure>
 <h2 id="the-local-stack">The local stack</h2>
+<figure>
+  <img src="/images/mindcontrol/slides/components.jpg" alt="The nine parts that make up the helmet" loading="lazy">
+  <figcaption>The helmet's nine off-the-shelf parts.</figcaption>
+</figure>
 
 
 
@@ -44,9 +54,21 @@
 
 <table><thead><tr><th>Step</th><th>Tool</th><th>Runs on</th></tr></thead><tbody><tr><td>Wake word</td><td>openWakeWord, “hey mycroft”</td><td>CPU</td></tr><tr><td>Speech to text</td><td>faster-whisper <code>base.en</code>, int8</td><td>CPU</td></tr><tr><td>LLM</td><td>Qwen2.5-Instruct 1.5B on <code>hailo-ollama</code></td><td>Hailo-10H NPU</td></tr><tr><td>Text to speech</td><td>Piper, <code>lessac-medium</code></td><td>CPU</td></tr></tbody></table>
 <p>Text to speech is nearly free (about 0.03 s of compute per second of audio), so the LLM is the bottleneck. Streaming the reply one sentence at a time means the helmet starts talking before the answer is finished.</p>
+<figure>
+  <img src="/images/mindcontrol/slides/pipeline.jpg" alt="The voice pipeline on one Raspberry Pi 5" loading="lazy">
+</figure>
+<figure>
+  <img src="/images/mindcontrol/slides/models.jpg" alt="Model comparison table for the five hailo-ollama models" loading="lazy">
+</figure>
 <h2 id="npu-vs-cpu">NPU vs. CPU</h2>
 <p>Public benchmarks show the Pi 5 CPU beating the Hailo-10H on every model <code>hailo-ollama</code> offers, for example 11.7 vs. 6.7 tokens/s on Qwen2.5 1.5B (<a href="https://www.cnx-software.com/2026/01/20/raspberry-pi-ai-hat-2-review-a-40-tops-ai-accelerator-tested-with-computer-vision-llm-and-vlm-workloads/">CNX Software</a>). The NPU uses less power and leaves the CPU idle, which matters on a helmet whose CPU also handles speech, the camera stream, the phone portal and the LED display.</p>
+<figure>
+  <img src="/images/mindcontrol/slides/npu-vs-cpu.jpg" alt="Bar chart of NPU vs CPU decode speed" loading="lazy">
+</figure>
 <p>Google’s own <a href="https://github.com/google-gemma/gemma-translator">Gemma Translator</a> makes the same point from the other side: Gemma 4 E2B on LiteRT-LM runs a full offline voice pipeline on a CPU-only Pi 5 at 7.6 to 9 tokens/s. One AI job fits on the CPU; the helmet runs several.</p>
+<figure>
+  <img src="/images/mindcontrol/slides/gemma.jpg" alt="Comparison table: Gemma Translator vs MindControl helmet" loading="lazy">
+</figure>
 <h2 id="what-broke">What broke</h2>
 <ul>
 <li><code>hailo-ollama</code> owns the NPU for its whole lifetime, and a second NPU process crashed it. Speech to text moved to the CPU.</li>
@@ -54,8 +76,14 @@
 <li>Background loops died silently while the process stayed up, so systemd never restarted them.</li>
 <li>The wake word is “MY-kroft”, not “Microsoft”. That one took a while.</li>
 </ul>
+<figure>
+  <img src="/images/mindcontrol/slides/lessons.jpg" alt="Four lessons from the helmet" loading="lazy">
+</figure>
 <h2 id="bonus-the-led-display">Bonus: the LED display</h2>
 <p>The 48×12 LED matrix on the back of the helmet came with a phone app. A Bluetooth snoop log, a decompiled React Native app and a JieLi SDK later, it turned out the display accepts commands from anyone in Bluetooth range, no authentication. A small Python library now drives it directly, including live video at 7.7 fps.</p>
+<figure>
+  <img src="/images/mindcontrol/slides/ble-display.jpg" alt="Four reverse-engineering steps for the LED display" loading="lazy">
+</figure>
 <h2 id="takeaways">Takeaways</h2>
 <ul>
 <li>Choose the model for latency, not size.</li>
@@ -63,4 +91,4 @@
 <li>Stream replies in sentences so speech starts early.</li>
 <li>Plan for silent failures: guard every background loop and let systemd retry forever.</li>
 </ul>
-<p>Code: <a href="https://github.com/electronick-co">github.com/electronick-co</a></p> </div> <footer class="post-foot" data-astro-cid-4sn4zg3r> <hr class="rule" data-astro-cid-4sn4zg3r> <a href="/blog" class="mono dim back" data-astro-cid-4sn4zg3r>← back to notes</a> </footer> </div> </article>  </main> <footer data-astro-cid-sz7xmlte> <div class="footer-rule" data-astro-cid-sz7xmlte></div> <div class="container inner" data-astro-cid-sz7xmlte> <div class="left" data-astro-cid-sz7xmlte> <span class="mono dim" data-astro-cid-sz7xmlte>© 2026 nick</span> <span class="jp dim small" data-astro-cid-sz7xmlte>手作り</span> </div> <div class="links" data-astro-cid-sz7xmlte> <a href="https://github.com/electronick-co" target="_blank" rel="noopener" class="mono dim" data-astro-cid-sz7xmlte>github</a> </div> </div> </footer>  </body></html> 
+<p><a class="gh-link" href="https://github.com/electronick-co" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>github.com/electronick-co</a></p> </div> <footer class="post-foot" data-astro-cid-4sn4zg3r> <hr class="rule" data-astro-cid-4sn4zg3r> <a href="/blog" class="mono dim back" data-astro-cid-4sn4zg3r>← back to notes</a> </footer> </div> </article>  </main> <footer data-astro-cid-sz7xmlte> <div class="footer-rule" data-astro-cid-sz7xmlte></div> <div class="container inner" data-astro-cid-sz7xmlte> <div class="left" data-astro-cid-sz7xmlte> <span class="mono dim" data-astro-cid-sz7xmlte>© 2026 nick</span> <span class="jp dim small" data-astro-cid-sz7xmlte>手作り</span> </div> <div class="links" data-astro-cid-sz7xmlte> <a href="https://github.com/electronick-co" target="_blank" rel="noopener" class="mono dim" data-astro-cid-sz7xmlte>github</a> </div> </div> </footer>  </body></html> 
